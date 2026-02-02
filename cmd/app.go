@@ -4,7 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"architechture/app/api"
+	"architechture/app/api/http"
 	"architechture/app/infrastructure/init/config"
 )
 
@@ -18,7 +18,7 @@ var appCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		config.InitViper()
 
-		r := api.NewRouter()
+		r := http.NewRouter()
 		//todo just trust nginx
 		r.SetTrustedProxies(nil)
 

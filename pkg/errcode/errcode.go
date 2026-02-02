@@ -1,5 +1,12 @@
 package errcode
 
+import "errors"
+
+var (
+	SystemErr = New(400, errors.New("system error"))
+	ParamsErr = New(500, errors.New("params error"))
+)
+
 type Error interface {
 	error
 	Code() int

@@ -11,24 +11,24 @@ import (
 )
 
 func InitViper() {
-
 	viper.SetEnvPrefix("app")
 	viper.AutomaticEnv()
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
-	exe, _ := os.Executable()
-	base := filepath.Dir(exe)
-	cfgPath := filepath.Join(base, "config.yaml")
+	cwd, _ := os.Getwd()
+	cfgPath := filepath.Join(cwd, "config.yaml")
+
 	//<ConfigPath>/<ConfigName>.<ConfigType>
 	viper.SetConfigName("config")
 	viper.SetConfigType("yaml")
-	viper.AddConfigPath(base)
+	viper.AddConfigPath(cwd) // 加上这行
 
 	check(cfgPath)
 }
 
 func check(cfgPath string) {
-	if err := viper.ReadInConfig(); err != nil {
+	err := viper.ReadInConfig()
+	if err != nil {
 		var configFileNotFoundError viper.ConfigFileNotFoundError
 		if errors.As(err, &configFileNotFoundError) {
 			viper.Set("port", 9595)
